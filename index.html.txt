@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IT Uzmanlık Akademisi | Personel Gelişim Paneli</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { background-color: #0f172a; color: #f8fafc; font-family: system-ui, -apple-system, sans-serif; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center justify-center p-4">
+
+    <div class="w-full max-w-2xl bg-slate-800 border border-slate-700 rounded-2xl shadow-2xl p-6 md:p-8">
+        <!-- Header / Puan Durumu -->
+        <div class="flex justify-between items-center border-b border-slate-700 pb-4 mb-6">
+            <div>
+                <h1 class="text-xl font-bold text-emerald-400">⚡ IT Uzmanlık Paneli</h1>
+                <p class="text-xs text-slate-400">Personel Gelişim ve Senaryo Simülasyonu</p>
+            </div>
+            <div class="flex gap-4">
+                <div class="bg-slate-900 px-4 py-2 rounded-xl border border-slate-700 text-center">
+                    <span class="block text-xs text-slate-400">PUAN</span>
+                    <span id="score" class="text-lg font-extrabold text-amber-400">0</span>
+                </div>
+                <div class="bg-slate-900 px-4 py-2 rounded-xl border border-slate-700 text-center">
+                    <span class="block text-xs text-slate-400">SEVİYE</span>
+                    <span id="level" class="text-lg font-extrabold text-cyan-400">1</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Soru Alanı -->
+        <div id="quiz-container">
+            <div class="mb-4 flex justify-between items-center">
+                <span id="category-badge" class="bg-blue-900/60 text-blue-300 text-xs px-3 py-1 rounded-full border border-blue-700">Kategori</span>
+                <span id="question-count" class="text-xs text-slate-400">Soru 1/3</span>
+            </div>
+            
+            <h2 id="question-text" class="text-lg font-semibold mb-6 text-slate-100">Soru yükleniyor...</h2>
+
+            <div id="options-container" class="space-y-3 mb-6">
+                <!-- Şıklar buraya dinamik gelecek -->
+            </div>
+
+            <div id="feedback" class="hidden p-4 rounded-xl mb-4 text-sm font-medium"></div>
+
+            <button id="next-btn" onclick="nextQuestion()" class="hidden w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 rounded-xl transition duration-200">
+                Sonraki Senaryo 🚀
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                category: "Firewall & Güvenlik",
+                question: "Şirket içindeki bir bilgisayar dış ağdaki bir sunucuya erişemiyor. Fortigate loglarında paketlerin 'deny' kuralına takıldığını gördün. İlk yapman gereken en mantıklı hamle nedir?",
+                options: [
+                    "Bilgisayarın Ethernet kablosunu söküp takmak",
+                    "Güvenlik duvarı (Firewall) kurallarını kontrol edip ilgili IP/Port için izin kuralı (Policy) yazmak",
+                    "Switch'i resetlemek",
+                    "Active Directory'den kullanıcının şifresini değiştirmek"
+                ],
+                correct: 1,
+                explanation: "Doğru! Trafik 'deny' kuralına takılıyorsa, Firewall üzerindeki Security Policy kurallarını kontrol edip doğru kaynak/hedef izinlerini tanımlaman gerekir."
+            },
+            {
+                category: "Active Directory & Sunucu",
+                question: "Bir personel işe yeni başladı. Bilgisayarınacorporate domainine dahil etmek istiyorsun ancak 'Etki alanı denetleyicisi ile iletişim kurulamadı' hatası alıyorsun. İlk kontrol etmen gereken yer neresidir?",
+                options: [
+                    "Bilgisayarın ses sürücüsü",
+                    "DNS sunucu ayarlarının doğru (Domain Controller IP'si olarak) girilip girilmediği",
+                    "Klavyenin dili",
+                    "Tarayıcının çerezleri"
+                ],
+                correct: 1,
+                explanation: "Tebrikler! Domain join işlemlerinde en sık karşılaşılan sorun yanlış DNS yapılandırmasıdır. İstemci cihaz DC'yi DNS üzerinden bulur."
+            },
+            {
+                category: "Network & DHCP",
+                question: "Ofisteki bazı bilgisayarlar '169.254.x.x' şeklinde IP adresleri alıyor ve internete çıkamıyor. Bu durum genellikle hangi sorunun göstergesidir?",
+                options: [
+                    "Ekran kartı arızası",
+                    "DHCP sunucusunun IP dağıtamaması veya ağda IP havuzunun (Scope) dolması",
+                    "İnternet hızının yüksek olması",
+                    "Harddiskin dolması"
+                ],
+                correct: 1,
+                explanation: "Harika! 169.254 ile başlayan IP'ler (APIPA), cihazın DHCP sunucusundan IP alamadığını gösterir. DHCP servislerini ve scope aralığını kontrol etmelisin."
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        let level = 1;
+
+        const questionText = document.getElementById("question-text");
+        const optionsContainer = document.getElementById("options-container");
+        const scoreDisplay = document.getElementById("score");
+        const levelDisplay = document.getElementById("level");
+        const categoryBadge = document.getElementById("category-badge");
+        const questionCount = document.getElementById("question-count");
+        const feedback = document.getElementById("feedback");
+        const nextBtn = document.getElementById("next-btn");
+
+        function loadQuestion() {
+            feedback.classList.add("hidden");
+            nextBtn.classList.add("hidden");
+            
+            const q = questions[currentQuestion];
+            categoryBadge.innerText = q.category;
+            questionCount.innerText = `Soru ${currentQuestion + 1}/${questions.length}`;
+            questionText.innerText = q.question;
+            
+            optionsContainer.innerHTML = "";
+            q.options.forEach((option, index) => {
+                const btn = document.createElement("button");
+                btn.className = "w-full text-left p-4 bg-slate-900 border border-slate-700 hover:border-slate-500 rounded-xl transition duration-200 text-sm font-medium";
+                btn.innerText = option;
+                btn.onclick = () => selectOption(index);
+                optionsContainer.appendChild(btn);
+            });
+        }
+
+        function selectOption(selectedIndex) {
+            const q = questions[currentQuestion];
+            const buttons = optionsContainer.getElementsByTagName("button");
+            
+            // Tıklamaları kapat
+            for(let btn of buttons) {
+                btn.disabled = true;
+            }
+
+            if(selectedIndex === q.correct) {
+                buttons[selectedIndex].classList.add("bg-emerald-900/50", "border-emerald-500", "text-emerald-200");
+                score += 20;
+                feedback.className = "p-4 rounded-xl mb-4 text-sm font-medium bg-emerald-950 border border-emerald-800 text-emerald-300";
+                feedback.innerText = "🎉 " + q.explanation;
+            } else {
+                buttons[selectedIndex].classList.add("bg-rose-900/50", "border-rose-500", "text-rose-200");
+                buttons[q.correct].classList.add("bg-emerald-900/50", "border-emerald-500", "text-emerald-200");
+                feedback.className = "p-4 rounded-xl mb-4 text-sm font-medium bg-rose-950 border border-rose-800 text-rose-300";
+                feedback.innerText = "❌ Yanlış! Doğru Açıklama: " + q.explanation;
+            }
+
+            scoreDisplay.innerText = score;
+            if(score >= 40) level = 2;
+            if(score >= 60) level = 3;
+            levelDisplay.innerText = level;
+
+            feedback.classList.remove("hidden");
+            nextBtn.classList.remove("hidden");
+        }
+
+        function nextQuestion() {
+            currentQuestion++;
+            if(currentQuestion < questions.length) {
+                loadQuestion();
+            } else {
+                document.getElementById("quiz-container").innerHTML = `
+                    <div class="text-center py-8">
+                        <h2 class="text-2xl font-bold text-emerald-400 mb-2">Tebrikler Kanka! 🏆</h2>
+                        <p class="text-slate-300 mb-4">Bugünkü IT senaryo testini başarıyla tamamladın.</p>
+                        <p class="text-lg font-semibold text-amber-400 mb-6">Toplam Puanın: ${score}</p>
+                        <button onclick="location.reload()" class="bg-blue-600 hover:bg-blue-500 text-white font-bold px-6 py-3 rounded-xl transition duration-200">
+                            Yeniden Başla 🔄
+                        </button>
+                    </div>
+                `;
+            }
+        }
+
+        loadQuestion();
+    </script>
+</body>
+</html>
