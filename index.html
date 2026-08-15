@@ -3,68 +3,104 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IT Uzmanlık Akademisi | Personel Gelişim Paneli</title>
+    <title>Soner Özhan | IT Uzmanlık Akademisi</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body { background-color: #0f172a; color: #f8fafc; font-family: system-ui, -apple-system, sans-serif; }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0f172a; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
     </style>
 </head>
-<body class="min-h-screen flex flex-col items-center justify-center p-4">
+<body class="min-h-screen flex flex-col items-center p-4 md:p-8">
 
-    <div class="w-full max-w-3xl bg-slate-800 border border-slate-700 rounded-2xl shadow-2xl p-6 md:p-8">
+    <div class="w-full max-w-4xl space-y-6">
         
-        <!-- Üst Bilgi & Profil Alanı -->
-        <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-slate-700 pb-4 mb-6 gap-4">
-            <div>
-                <div class="flex items-center gap-2">
-                    <span class="w-3 h-3 bg-emerald-500 rounded-full animate-pulse"></span>
-                    <h1 class="text-xl font-bold text-emerald-400">⚡ IT Uzmanlık Akademisi</h1>
-                </div>
-                <p class="text-xs text-slate-400 mt-1">Operasyon Personeli: <span class="text-cyan-300 font-semibold">Soner Özhan</span></p>
-            </div>
-
-            <!-- Sağ Üst: Günün Akli / IT Tavsiyesi -->
-            <div class="bg-slate-900/80 border border-amber-500/30 px-3 py-2 rounded-xl max-w-xs">
-                <span class="text-[10px] font-bold text-amber-400 block tracking-wider">💡 GÜNÜN KOÇLUK TAVSİYESİ</span>
-                <p id="daily-advice" class="text-xs text-slate-300 mt-0.5">Yükleniyor...</p>
-            </div>
-
-            <!-- Puan & Seviye -->
-            <div class="flex gap-3">
-                <div class="bg-slate-900 px-3 py-1.5 rounded-xl border border-slate-700 text-center">
-                    <span class="block text-[10px] text-slate-400">PUAN</span>
-                    <span id="score" class="text-base font-extrabold text-amber-400">0</span>
-                </div>
-                <div class="bg-slate-900 px-3 py-1.5 rounded-xl border border-slate-700 text-center">
-                    <span class="block text-[10px] text-slate-400">RÜTBE / SEVİYE</span>
-                    <span id="level" class="text-base font-extrabold text-cyan-400">1</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Soru Alanı -->
-        <div id="quiz-container">
-            <div class="mb-4 flex justify-between items-center">
-                <span id="category-badge" class="bg-blue-900/60 text-blue-300 text-xs px-3 py-1 rounded-full border border-blue-700">Kategori</span>
-                <span id="question-count" class="text-xs text-slate-400">Soru 1/10</span>
-            </div>
+        <!-- ÜST PROFİL VE KİMLİK BANNER'I -->
+        <div class="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 border border-slate-700 rounded-2xl shadow-2xl p-6 flex flex-col md:flex-row items-center justify-between gap-6 relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-64 h-64 bg-emerald-500/5 rounded-full blur-3xl pointer-events-none"></div>
             
-            <h2 id="question-text" class="text-base md:text-lg font-semibold mb-6 text-slate-100 leading-relaxed">Soru yükleniyor...</h2>
-
-            <div id="options-container" class="space-y-3 mb-6">
-                <!-- Şıklar buraya dinamik gelecek -->
+            <!-- Profil Fotoğrafı ve Bilgiler -->
+            <div class="flex items-center gap-5 w-full md:w-auto">
+                <div class="relative">
+                    <!-- Profil Resmi (Kendi fotoğraf linkini koyabilirsin) -->
+                    <div class="w-20 h-20 rounded-2xl bg-slate-700 border-2 border-emerald-500/50 overflow-hidden shadow-lg flex items-center justify-center text-2xl font-bold text-emerald-400">
+                        SÖ
+                    </div>
+                    <span class="absolute -bottom-1 -right-1 w-4 h-4 bg-emerald-500 border-2 border-slate-900 rounded-full animate-pulse"></span>
+                </div>
+                <div>
+                    <div class="flex items-center gap-2">
+                        <h1 class="text-xl md:text-2xl font-extrabold text-white">Soner Özhan</h1>
+                        <span class="bg-emerald-500/10 text-emerald-400 text-[10px] px-2.5 py-1 rounded-full border border-emerald-500/20 font-semibold">Aktif Personel</span>
+                    </div>
+                    <p class="text-xs text-cyan-400 font-medium mt-1">Özhan Güvenlik & IT Altyapı Uzmanı</p>
+                    <p id="daily-advice" class="text-[11px] text-slate-400 mt-2 italic max-w-md">💡 Tavsiye yükleniyor...</p>
+                </div>
             </div>
 
-            <div id="feedback" class="hidden p-4 rounded-xl mb-4 text-sm font-medium"></div>
-
-            <button id="next-btn" onclick="nextQuestion()" class="hidden w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 rounded-xl transition duration-200 shadow-lg shadow-emerald-900/30">
-                Sonraki Zorlu Senaryo 🚀
-            </button>
+            <!-- Skor ve Seviye Kutuları -->
+            <div class="flex gap-3 w-full md:w-auto justify-end">
+                <div class="bg-slate-950/80 px-4 py-2.5 rounded-xl border border-slate-700/80 text-center min-w-[80px]">
+                    <span class="block text-[9px] font-bold text-slate-400 tracking-wider">PUAN</span>
+                    <span id="score" class="text-lg font-black text-amber-400">0</span>
+                </div>
+                <div class="bg-slate-950/80 px-4 py-2.5 rounded-xl border border-slate-700/80 text-center min-w-[80px]">
+                    <span class="block text-[9px] font-bold text-slate-400 tracking-wider">SEVİYE</span>
+                    <span id="level" class="text-lg font-black text-cyan-400">1</span>
+                </div>
+            </div>
         </div>
+
+        <!-- ANA İÇERİK: SORU SİMÜLASYONU -->
+        <div class="bg-slate-800 border border-slate-700 rounded-2xl shadow-2xl p-6 md:p-8">
+            <div id="quiz-container">
+                <div class="mb-4 flex justify-between items-center">
+                    <span id="category-badge" class="bg-blue-900/60 text-blue-300 text-xs px-3 py-1 rounded-full border border-blue-700 font-medium">Kategori</span>
+                    <span id="question-count" class="text-xs text-slate-400 font-medium">Senaryo 1/5</span>
+                </div>
+                
+                <h2 id="question-text" class="text-base md:text-lg font-semibold mb-6 text-slate-100 leading-relaxed">Soru yükleniyor...</h2>
+
+                <div id="options-container" class="space-y-3 mb-6">
+                    <!-- Şıklar buraya dinamik gelecek -->
+                </div>
+
+                <div id="feedback" class="hidden p-4 rounded-xl mb-4 text-sm font-medium"></div>
+
+                <button id="next-btn" onclick="nextQuestion()" class="hidden w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3.5 rounded-xl transition duration-200 shadow-lg shadow-emerald-900/30">
+                    Sonraki Zorlu Senaryo 🚀
+                </button>
+            </div>
+        </div>
+
+        <!-- ALT BÖLÜM: EĞİTİM VİDEOLARI VE KAYNAK ÖNERİLERİ -->
+        <div class="bg-slate-800/80 border border-slate-700 rounded-2xl shadow-xl p-6">
+            <h3 class="text-sm font-bold text-slate-300 uppercase tracking-wider mb-4 flex items-center gap-2">
+                <span>📚</span> Uzmanlık Gelişim ve Eğitim Kaynakları
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="bg-slate-900/80 border border-slate-700/60 p-4 rounded-xl hover:border-slate-500 transition">
+                    <span class="text-xs text-emerald-400 font-bold block mb-1">AĞ & FIREWALL</span>
+                    <h4 class="text-sm font-semibold text-slate-200 mb-2">Fortigate Temel & İleri Düzey Konfigürasyon</h4>
+                    <p class="text-xs text-slate-400">Güvenlik duvarı politikaları, NAT kuralları ve VPN tünel yapılandırmaları.</p>
+                </div>
+                <div class="bg-slate-900/80 border border-slate-700/60 p-4 rounded-xl hover:border-slate-500 transition">
+                    <span class="text-xs text-cyan-400 font-bold block mb-1">SİSTEM YÖNETİMİ</span>
+                    <h4 class="text-sm font-semibold text-slate-200 mb-2">Active Directory & Domain Yönetimi</h4>
+                    <p class="text-xs text-slate-400">Grup İlkeleri (GPO), kullanıcı yetkilendirme ve DNS/DHCP senkronizasyonu.</p>
+                </div>
+                <div class="bg-slate-900/80 border border-slate-700/60 p-4 rounded-xl hover:border-slate-500 transition">
+                    <span class="text-xs text-amber-400 font-bold block mb-1">DONANIM & RAID</span>
+                    <h4 class="text-sm font-semibold text-slate-200 mb-2">Sunucu Bakım ve Raid Yapıları</h4>
+                    <p class="text-xs text-slate-400">Disk değişimi, hot-swap operasyonları ve felaket kurtarma senaryoları.</p>
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <script>
-        // Günün akıl veren sözleri / tecrübe notları
         const advices = [
             "Asla yedeksiz (backup) sistem değişikliği yapma, veriyi kaybetmektense 10 dakika fazla bekletmek iyidir.",
             "Fortigate loglarında 'Deny' görüyorsan önce kural sırasına (Policy ID) bak, kurallar yukarıdan aşağıya okunur!",
@@ -73,7 +109,6 @@
             "Switch üzerinde port flapping (gidip gelme) varsa, kabloyu veya fiziksel portu hızlıca değiştir."
         ];
 
-        // Genişletilmiş ve Zorlaştırılmış IT Soru Bankası
         const questions = [
             {
                 category: "Firewall & Güvenlik (İleri)",
@@ -108,7 +143,7 @@
                     "İnternet sağlayıcısının hız düşürmesi",
                     "Aktif dizin şifresinin süresinin dolması"
                 ],
-                    correct: 1,
+                correct: 1,
                 explanation: "Harika! Loop (döngü), kablonun iki ucunun aynı cihaza bağlanmasıyla broadcast fırtınasına yol açar. STP (Spanning Tree Protocol) kapalıysa ağı kilitler."
             },
             {
@@ -141,8 +176,7 @@
         let score = parseInt(localStorage.getItem("it_score")) || 0;
         let level = parseInt(localStorage.getItem("it_level")) || 1;
 
-        // Sayfa açıldığında rastgele tavsiye yükle
-        document.getElementById("daily-advice").innerText = advices[Math.floor(Math.random() * advices.length)];
+        document.getElementById("daily-advice").innerText = "💡 " + advices[Math.floor(Math.random() * advices.length)];
         
         const questionText = document.getElementById("question-text");
         const optionsContainer = document.getElementById("options-container");
@@ -168,7 +202,7 @@
             optionsContainer.innerHTML = "";
             q.options.forEach((option, index) => {
                 const btn = document.createElement("button");
-                btn.className = "w-full text-left p-4 bg-slate-900 border border-slate-700 hover:border-slate-500 rounded-xl transition duration-200 text-sm font-medium text-slate-200";
+                btn.className = "w-full text-left p-4 bg-slate-900 border border-slate-700 hover:border-slate-500 rounded-xl transition duration-200 text-sm font-medium text-slate-200 shadow-sm";
                 btn.innerText = option;
                 btn.onclick = () => selectOption(index);
                 optionsContainer.appendChild(btn);
@@ -195,15 +229,13 @@
                 feedback.innerText = "❌ Yanlış Hamle! Doğrusu Şöyle Olmalıydı: " + q.explanation;
             }
 
-            // Seviye hesaplama
             if(score >= 50) level = 2;
             if(score >= 100) level = 3;
-            if(score >= 150) level = 4; // Kıdemli SysAdmin
+            if(score >= 150) level = 4;
 
             scoreDisplay.innerText = score;
             levelDisplay.innerText = level;
 
-            // Hafızaya kaydet
             localStorage.setItem("it_score", score);
             localStorage.setItem("it_level", level);
 
