@@ -1,171 +1,124 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Özhan IT Academy</title>
-
-<style>
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Segoe UI,sans-serif;
-}
-
-body{
-    background:#0d1117;
-    color:white;
-}
-
-header{
-    background:#161b22;
-    padding:20px;
-    text-align:center;
-    border-bottom:2px solid #00bfff;
-}
-
-header h1{
-    color:#00bfff;
-}
-
-.container{
-    max-width:1200px;
-    margin:auto;
-    padding:20px;
-}
-
-.card{
-    background:#161b22;
-    padding:20px;
-    border-radius:15px;
-    margin-bottom:20px;
-    border:1px solid #30363d;
-}
-
-.xp-bar{
-    width:100%;
-    height:25px;
-    background:#30363d;
-    border-radius:20px;
-    overflow:hidden;
-}
-
-.xp-fill{
-    width:35%;
-    height:100%;
-    background:#00bfff;
-}
-
-button{
-    background:#00bfff;
-    border:none;
-    color:white;
-    padding:10px 20px;
-    border-radius:10px;
-    cursor:pointer;
-    margin-top:10px;
-}
-
-button:hover{
-    opacity:0.8;
-}
-
-.grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-    gap:20px;
-}
-
-.lesson{
-    background:#1f2937;
-    padding:20px;
-    border-radius:15px;
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soner Özhan | IT Uzmanlık Akademisi</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { background-color: #0f172a; color: #f8fafc; font-family: system-ui, -apple-system, sans-serif; }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0f172a; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+    </style>
 </head>
+<body class="min-h-screen flex flex-col items-center p-4 md:p-8">
 
-<body>
+    <div class="w-full max-w-4xl space-y-6">
+        
+        <!-- ÜST PROFİL BANNER'I -->
+        <div class="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 border border-slate-700 rounded-2xl shadow-2xl p-6 flex flex-col md:flex-row items-center justify-between gap-6 relative overflow-hidden">
+            <div class="flex items-center gap-5">
+                <div class="w-20 h-20 rounded-2xl bg-slate-700 border-2 border-emerald-500/50 flex items-center justify-center text-2xl font-bold text-emerald-400">SÖ</div>
+                <div>
+                    <h1 class="text-2xl font-extrabold text-white">Soner Özhan</h1>
+                    <p class="text-xs text-cyan-400 font-medium">Özhan Güvenlik & IT Altyapı Uzmanı</p>
+                    <p id="daily-advice" class="text-[11px] text-slate-400 mt-2 italic max-w-md">💡 Tavsiye yükleniyor...</p>
+                </div>
+            </div>
+            <div class="flex gap-3">
+                <div class="bg-slate-950/80 px-4 py-2.5 rounded-xl border border-slate-700/80 text-center min-w-[80px]">
+                    <span class="block text-[9px] font-bold text-slate-400 tracking-wider">PUAN</span>
+                    <span id="score" class="text-lg font-black text-amber-400">0</span>
+                </div>
+                <div class="bg-slate-950/80 px-4 py-2.5 rounded-xl border border-slate-700/80 text-center min-w-[80px]">
+                    <span class="block text-[9px] font-bold text-slate-400 tracking-wider">SEVİYE</span>
+                    <span id="level" class="text-lg font-black text-cyan-400">1</span>
+                </div>
+            </div>
+        </div>
 
-<header>
-    <h1>Özhan IT Academy</h1>
-    <p>Kurumsal IT Uzmanlık Platformu</p>
-</header>
+        <!-- ANA İÇERİK: SORU SİMÜLASYONU -->
+        <div class="bg-slate-800 border border-slate-700 rounded-2xl shadow-2xl p-6 md:p-8">
+            <div id="quiz-container">
+                <div class="mb-4 flex justify-between items-center">
+                    <span id="category-badge" class="bg-blue-900/60 text-blue-300 text-xs px-3 py-1 rounded-full border border-blue-700 font-medium">Kategori</span>
+                    <span id="question-count" class="text-xs text-slate-400 font-medium">Senaryo 1/20</span>
+                </div>
+                <h2 id="question-text" class="text-lg font-semibold mb-6 text-slate-100">Soru yükleniyor...</h2>
+                <div id="options-container" class="space-y-3 mb-6"></div>
+                <div id="feedback" class="hidden p-4 rounded-xl mb-4 text-sm font-medium"></div>
+                <button id="next-btn" onclick="nextQuestion()" class="hidden w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3.5 rounded-xl transition shadow-lg">Sonraki Zorlu Senaryo 🚀</button>
+            </div>
+        </div>
 
-<div class="container">
-
-<div class="card">
-    <h2>Hoş Geldin Soner 👋</h2>
-    <p>Seviye: IT Destek Uzmanı</p>
-    <p>XP: <span id="xp">350</span> / 1000</p>
-
-    <div class="xp-bar">
-        <div class="xp-fill"></div>
+        <!-- EĞİTİM KAYNAKLARI -->
+        <div class="bg-slate-800/80 border border-slate-700 rounded-2xl p-6">
+            <h3 class="text-sm font-bold text-slate-300 mb-4 uppercase tracking-wider">📚 Uzmanlık Gelişim Kaynakları</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-slate-400 text-xs">
+                <div class="bg-slate-900 p-4 rounded-xl border border-slate-700">Ağ & Firewall Yapılandırmaları</div>
+                <div class="bg-slate-900 p-4 rounded-xl border border-slate-700">Active Directory Yönetimi</div>
+                <div class="bg-slate-900 p-4 rounded-xl border border-slate-700">Sunucu Donanım & RAID</div>
+            </div>
+        </div>
     </div>
 
-    <button onclick="xpKazan()">+50 XP Kazan</button>
-</div>
+    <script>
+        const advices = ["Yedeksiz iş yapma!", "Log oku, log her şeydir.", "Ping atmak basit görünebilir ama çok şey anlatır.", "Sistem yöneticisinin en iyi dostu dokümantasyondur.", "Güvenlik bir süreçtir, bir ürün değil."];
+        
+        // Buraya 100 soruya kadar ekleyebilirsin
+        const questions = [
+            { category: "Firewall", question: "Fortigate üzerinde bir portta high memory alarmı aldın, ilk neye bakarsın?", options: ["Kablo değiştirmek", "get system performance status", "Cihazı resetlemek", "Lisans kontrolü"], correct: 1, explanation: "İşlem bazlı RAM tüketimini görmen gerekir." },
+            { category: "Active Directory", question: "GPO ile yazılım yüklenmiyorsa ilk neyi kontrol edersin?", options: ["İnternet", "GPO yetkileri ve hedef OU", "Lisans", "Bilgisayarın rengi"], correct: 1, explanation: "GPO'lar yetkilendirme tabanlıdır." }
+        ];
 
-<div class="card">
-    <h2>Günlük Görevler</h2>
-    <ul>
-        <li>✔ DHCP Dersini Tamamla</li>
-        <li>✔ 10 Network Sorusu Çöz</li>
-        <li>⬜ Fortigate Policy Eğitimi</li>
-        <li>⬜ VLAN Testi</li>
-    </ul>
-</div>
+        let currentQuestion = 0;
+        let score = parseInt(localStorage.getItem("it_score")) || 0;
+        let level = parseInt(localStorage.getItem("it_level")) || 1;
 
-<h2 style="margin-bottom:20px;">Eğitim Modülleri</h2>
+        document.getElementById("daily-advice").innerText = "💡 " + advices[Math.floor(Math.random() * advices.length)];
+        document.getElementById("score").innerText = score;
+        document.getElementById("level").innerText = level;
 
-<div class="grid">
+        function loadQuestion() {
+            const q = questions[currentQuestion];
+            document.getElementById("category-badge").innerText = q.category;
+            document.getElementById("question-text").innerText = q.question;
+            const container = document.getElementById("options-container");
+            container.innerHTML = "";
+            q.options.forEach((o, i) => {
+                const btn = document.createElement("button");
+                btn.className = "w-full text-left p-4 bg-slate-900 border border-slate-700 hover:border-slate-500 rounded-xl transition text-sm text-slate-200";
+                btn.onclick = () => selectOption(i);
+                btn.innerText = o;
+                container.appendChild(btn);
+            });
+        }
 
-<div class="lesson">
-<h3>🌐 Network</h3>
-<p>IP, DNS, DHCP, VLAN, Routing</p>
-</div>
+        function selectOption(i) {
+            const q = questions[currentQuestion];
+            const feedback = document.getElementById("feedback");
+            feedback.classList.remove("hidden");
+            if(i === q.correct) {
+                score += 25;
+                feedback.className = "p-4 rounded-xl bg-emerald-950 border border-emerald-800 text-emerald-300";
+                feedback.innerText = "Doğru! " + q.explanation;
+            } else {
+                feedback.className = "p-4 rounded-xl bg-rose-950 border border-rose-800 text-rose-300";
+                feedback.innerText = "Yanlış! Doğrusu: " + q.explanation;
+            }
+            document.getElementById("score").innerText = score;
+            localStorage.setItem("it_score", score);
+            document.getElementById("next-btn").classList.remove("hidden");
+        }
 
-<div class="lesson">
-<h3>🖥 Windows Server</h3>
-<p>AD, GPO, DNS, File Server</p>
-</div>
+        function nextQuestion() {
+            currentQuestion++;
+            if(currentQuestion < questions.length) loadQuestion();
+            else alert("Tebrikler, bitirdin!");
+        }
 
-<div class="lesson">
-<h3>🔀 Switch</h3>
-<p>Access Port, Trunk, STP</p>
-</div>
-
-<div class="lesson">
-<h3>🔥 Firewall</h3>
-<p>Fortigate, NAT, VPN, Policy</p>
-</div>
-
-<div class="lesson">
-<h3>☁ VMware</h3>
-<p>Hyper-V ve Sanallaştırma</p>
-</div>
-
-<div class="lesson">
-<h3>🛡 Siber Güvenlik</h3>
-<p>Firewall, IDS, IPS, Log Analizi</p>
-</div>
-
-</div>
-
-</div>
-
-<script>
-let xp = 350;
-
-function xpKazan(){
-    xp += 50;
-    document.getElementById("xp").innerText = xp;
-
-    if(xp >= 1000){
-        alert("Tebrikler! Yeni seviyeye ulaştın.");
-    }
-}
-</script>
-
+        loadQuestion();
+    </script>
 </body>
 </html>
