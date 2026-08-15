@@ -1,267 +1,171 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Soner Özhan | IT Uzmanlık Akademisi</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        body { background-color: #0f172a; color: #f8fafc; font-family: system-ui, -apple-system, sans-serif; }
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #0f172a; }
-        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Özhan IT Academy</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Segoe UI,sans-serif;
+}
+
+body{
+    background:#0d1117;
+    color:white;
+}
+
+header{
+    background:#161b22;
+    padding:20px;
+    text-align:center;
+    border-bottom:2px solid #00bfff;
+}
+
+header h1{
+    color:#00bfff;
+}
+
+.container{
+    max-width:1200px;
+    margin:auto;
+    padding:20px;
+}
+
+.card{
+    background:#161b22;
+    padding:20px;
+    border-radius:15px;
+    margin-bottom:20px;
+    border:1px solid #30363d;
+}
+
+.xp-bar{
+    width:100%;
+    height:25px;
+    background:#30363d;
+    border-radius:20px;
+    overflow:hidden;
+}
+
+.xp-fill{
+    width:35%;
+    height:100%;
+    background:#00bfff;
+}
+
+button{
+    background:#00bfff;
+    border:none;
+    color:white;
+    padding:10px 20px;
+    border-radius:10px;
+    cursor:pointer;
+    margin-top:10px;
+}
+
+button:hover{
+    opacity:0.8;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:20px;
+}
+
+.lesson{
+    background:#1f2937;
+    padding:20px;
+    border-radius:15px;
+}
+</style>
 </head>
-<body class="min-h-screen flex flex-col items-center p-4 md:p-8">
 
-    <div class="w-full max-w-4xl space-y-6">
-        
-        <!-- ÜST PROFİL VE KİMLİK BANNER'I -->
-        <div class="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 border border-slate-700 rounded-2xl shadow-2xl p-6 flex flex-col md:flex-row items-center justify-between gap-6 relative overflow-hidden">
-            <div class="absolute top-0 right-0 w-64 h-64 bg-emerald-500/5 rounded-full blur-3xl pointer-events-none"></div>
-            
-            <!-- Profil Fotoğrafı ve Bilgiler -->
-            <div class="flex items-center gap-5 w-full md:w-auto">
-                <div class="relative">
-                    <!-- Profil Resmi (Kendi fotoğraf linkini koyabilirsin) -->
-                    <div class="w-20 h-20 rounded-2xl bg-slate-700 border-2 border-emerald-500/50 overflow-hidden shadow-lg flex items-center justify-center text-2xl font-bold text-emerald-400">
-                        SÖ
-                    </div>
-                    <span class="absolute -bottom-1 -right-1 w-4 h-4 bg-emerald-500 border-2 border-slate-900 rounded-full animate-pulse"></span>
-                </div>
-                <div>
-                    <div class="flex items-center gap-2">
-                        <h1 class="text-xl md:text-2xl font-extrabold text-white">Soner Özhan</h1>
-                        <span class="bg-emerald-500/10 text-emerald-400 text-[10px] px-2.5 py-1 rounded-full border border-emerald-500/20 font-semibold">Aktif Personel</span>
-                    </div>
-                    <p class="text-xs text-cyan-400 font-medium mt-1">Özhan Güvenlik & IT Altyapı Uzmanı</p>
-                    <p id="daily-advice" class="text-[11px] text-slate-400 mt-2 italic max-w-md">💡 Tavsiye yükleniyor...</p>
-                </div>
-            </div>
+<body>
 
-            <!-- Skor ve Seviye Kutuları -->
-            <div class="flex gap-3 w-full md:w-auto justify-end">
-                <div class="bg-slate-950/80 px-4 py-2.5 rounded-xl border border-slate-700/80 text-center min-w-[80px]">
-                    <span class="block text-[9px] font-bold text-slate-400 tracking-wider">PUAN</span>
-                    <span id="score" class="text-lg font-black text-amber-400">0</span>
-                </div>
-                <div class="bg-slate-950/80 px-4 py-2.5 rounded-xl border border-slate-700/80 text-center min-w-[80px]">
-                    <span class="block text-[9px] font-bold text-slate-400 tracking-wider">SEVİYE</span>
-                    <span id="level" class="text-lg font-black text-cyan-400">1</span>
-                </div>
-            </div>
-        </div>
+<header>
+    <h1>Özhan IT Academy</h1>
+    <p>Kurumsal IT Uzmanlık Platformu</p>
+</header>
 
-        <!-- ANA İÇERİK: SORU SİMÜLASYONU -->
-        <div class="bg-slate-800 border border-slate-700 rounded-2xl shadow-2xl p-6 md:p-8">
-            <div id="quiz-container">
-                <div class="mb-4 flex justify-between items-center">
-                    <span id="category-badge" class="bg-blue-900/60 text-blue-300 text-xs px-3 py-1 rounded-full border border-blue-700 font-medium">Kategori</span>
-                    <span id="question-count" class="text-xs text-slate-400 font-medium">Senaryo 1/5</span>
-                </div>
-                
-                <h2 id="question-text" class="text-base md:text-lg font-semibold mb-6 text-slate-100 leading-relaxed">Soru yükleniyor...</h2>
+<div class="container">
 
-                <div id="options-container" class="space-y-3 mb-6">
-                    <!-- Şıklar buraya dinamik gelecek -->
-                </div>
+<div class="card">
+    <h2>Hoş Geldin Soner 👋</h2>
+    <p>Seviye: IT Destek Uzmanı</p>
+    <p>XP: <span id="xp">350</span> / 1000</p>
 
-                <div id="feedback" class="hidden p-4 rounded-xl mb-4 text-sm font-medium"></div>
-
-                <button id="next-btn" onclick="nextQuestion()" class="hidden w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3.5 rounded-xl transition duration-200 shadow-lg shadow-emerald-900/30">
-                    Sonraki Zorlu Senaryo 🚀
-                </button>
-            </div>
-        </div>
-
-        <!-- ALT BÖLÜM: EĞİTİM VİDEOLARI VE KAYNAK ÖNERİLERİ -->
-        <div class="bg-slate-800/80 border border-slate-700 rounded-2xl shadow-xl p-6">
-            <h3 class="text-sm font-bold text-slate-300 uppercase tracking-wider mb-4 flex items-center gap-2">
-                <span>📚</span> Uzmanlık Gelişim ve Eğitim Kaynakları
-            </h3>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div class="bg-slate-900/80 border border-slate-700/60 p-4 rounded-xl hover:border-slate-500 transition">
-                    <span class="text-xs text-emerald-400 font-bold block mb-1">AĞ & FIREWALL</span>
-                    <h4 class="text-sm font-semibold text-slate-200 mb-2">Fortigate Temel & İleri Düzey Konfigürasyon</h4>
-                    <p class="text-xs text-slate-400">Güvenlik duvarı politikaları, NAT kuralları ve VPN tünel yapılandırmaları.</p>
-                </div>
-                <div class="bg-slate-900/80 border border-slate-700/60 p-4 rounded-xl hover:border-slate-500 transition">
-                    <span class="text-xs text-cyan-400 font-bold block mb-1">SİSTEM YÖNETİMİ</span>
-                    <h4 class="text-sm font-semibold text-slate-200 mb-2">Active Directory & Domain Yönetimi</h4>
-                    <p class="text-xs text-slate-400">Grup İlkeleri (GPO), kullanıcı yetkilendirme ve DNS/DHCP senkronizasyonu.</p>
-                </div>
-                <div class="bg-slate-900/80 border border-slate-700/60 p-4 rounded-xl hover:border-slate-500 transition">
-                    <span class="text-xs text-amber-400 font-bold block mb-1">DONANIM & RAID</span>
-                    <h4 class="text-sm font-semibold text-slate-200 mb-2">Sunucu Bakım ve Raid Yapıları</h4>
-                    <p class="text-xs text-slate-400">Disk değişimi, hot-swap operasyonları ve felaket kurtarma senaryoları.</p>
-                </div>
-            </div>
-        </div>
-
+    <div class="xp-bar">
+        <div class="xp-fill"></div>
     </div>
 
-    <script>
-        const advices = [
-            "Asla yedeksiz (backup) sistem değişikliği yapma, veriyi kaybetmektense 10 dakika fazla bekletmek iyidir.",
-            "Fortigate loglarında 'Deny' görüyorsan önce kural sırasına (Policy ID) bak, kurallar yukarıdan aşağıya okunur!",
-            "Kullanıcı 'internetim yok' diyorsa ilk önce ping at, sonra DNS çözümlüyor mu diye test et.",
-            "Active Directory'de şifre değişmiyorsa Replica durumunu ve SYSVOL klasörünü kontrol etmeyi unutma.",
-            "Switch üzerinde port flapping (gidip gelme) varsa, kabloyu veya fiziksel portu hızlıca değiştir."
-        ];
+    <button onclick="xpKazan()">+50 XP Kazan</button>
+</div>
 
-        const questions = [
-            {
-                category: "Firewall & Güvenlik (İleri)",
-                question: "Şirket dışındaki bir şube, merkez sunucuya IPsec VPN üzerinden bağlı ancak içerideki dosya paylaşım sunucusuna (SMB) erişemiyor. Ping atılabiliyor ama port (445) yanıt vermiyor. İlk şüphelenmen gereken ve kontrol etmen yer neresidir?",
-                options: [
-                    "Merkezdeki Fortigate üzerindeki Firewall Policy kurallarında IPsec interface'den LAN'a gelen SMB (TCP 445) trafiğinin engellenip engellenmediği",
-                    "Şubedeki kullanıcının klavye dilinin İngilizce olması",
-                    "Merkez sunucunun ekran çözünürlüğü",
-                    "Switch cihazının elektrik kablosunun takılı olup olmadığı"
-                ],
-                correct: 0,
-                explanation: "Mükemmel! Ping (ICMP) ayrı bir protokoldür ve geçebilir; ancak güvenlik duvarı politikalarında özel servis portları (SMB 445 gibi) açık tanımlanmadıysa trafik drop edilir."
-            },
-            {
-                category: "Active Directory & DNS",
-                question: "Bir kullanıcı bilgisayarını açtığında 'Güvenlik ilişki hatası (Trust relationship failed)' uyarısı alıyor ve domaine giriş yapamıyor. Bu sorunu çözmek için en pratik ve kalıcı yöntem nedir?",
-                options: [
-                    "Bilgisayara format atmak",
-                    "Local Administrator ile açıp, Active Directory'den bilgisayar hesabını resetleyip (`Reset Computer Account`), makinayı Workgroup'a alıp tekrar domaine dahil etmek",
-                    "Modemi resetlemek",
-                    "Ethernet kablosunu değiştirmek"
-                ],
-                correct: 1,
-                explanation: "Doğru! Trust relationship kopması, makina şifresinin DC ile uyuşmamasından kaynaklanır. Hesabı resetleyip yeniden joinlemek en temiz çözümdür."
-            },
-            {
-                category: "Network & Switch Yönetimi",
-                question: "Ofisteki bir switch üzerinde bazı portlarda sürekli kopmalar ve ağda yavaşlama var. Switch loglarında 'Port loop detected' uyarısı görüyorsun. Bu durumun en yaygın sebebi nedir?",
-                options: [
-                    "Switch'in tozlanmış olması",
-                    "Bir kullanıcının Ethernet kablosunun iki ucunu da aynı switch'e takarak döngü (loop) yaratması",
-                    "İnternet sağlayıcısının hız düşürmesi",
-                    "Aktif dizin şifresinin süresinin dolması"
-                ],
-                correct: 1,
-                explanation: "Harika! Loop (döngü), kablonun iki ucunun aynı cihaza bağlanmasıyla broadcast fırtınasına yol açar. STP (Spanning Tree Protocol) kapalıysa ağı kilitler."
-            },
-            {
-                category: "Sunucu & Donanım Arızası",
-                question: "Şirketin ana File Server sunucusunda RAID 5 yapısı kullanılıyor. Sunucuyu açtığında bir diskin 'Failed' durumunda olduğunu ve sistemin 'Degraded' çalıştığını gördün. Ne yapmalısın?",
-                options: [
-                    "Sunucuyu tamamen kapatıp beklemek",
-                    "Bozulan diski hot-swap özellik sayesinde söküp yerine aynı model sağlam bir disk takarak RAID Rebuild (yeniden oluşturma) sürecini başlatmak",
-                    "Tüm diskleri söküp sıfırdan kurulum yapmak",
-                    "Ethernet kablosunu söküp takmak"
-                ],
-                correct: 1,
-                explanation: "Tebrikler! RAID 5 tek disk toleransına sahiptir. Bozulan disk hot-swap ile değiştirilerek veri kaybı önlenir ve rebuild tetiklenir."
-            },
-            {
-                category: "DHCP & IP Yönetimi",
-                question: "Ağda yeni kurulan yazıcıya statik IP vermek istiyorsun ancak bu IP adresinin halihazırda başka bir cihaza DHCP tarafından verilmiş olabileceğinden şüpheleniyorsun. Çakışmayı önlemek için DHCP havuzunda yapman gereken ilk işlem nedir?",
-                options: [
-                    "Hiçbir şey yapmadan rastgele bir IP vermek",
-                    "DHCP yöneticisinden ilgili IP adresini 'Exclusions' (Hariç Tutulanlar) listesine eklemek veya rezerve etmek",
-                    "Switch'i fabrika ayarlarına döndürmek",
-                    "Active Directory servisini yeniden başlatmak"
-                ],
-                correct: 1,
-                explanation: "Doğru! Statik cihazlara verilen IP'lerin DHCP Scope aralığında çakışmaması için Exclusion (hariç tutma) tanımlanmalıdır."
-            }
-        ];
+<div class="card">
+    <h2>Günlük Görevler</h2>
+    <ul>
+        <li>✔ DHCP Dersini Tamamla</li>
+        <li>✔ 10 Network Sorusu Çöz</li>
+        <li>⬜ Fortigate Policy Eğitimi</li>
+        <li>⬜ VLAN Testi</li>
+    </ul>
+</div>
 
-        let currentQuestion = 0;
-        let score = parseInt(localStorage.getItem("it_score")) || 0;
-        let level = parseInt(localStorage.getItem("it_level")) || 1;
+<h2 style="margin-bottom:20px;">Eğitim Modülleri</h2>
 
-        document.getElementById("daily-advice").innerText = "💡 " + advices[Math.floor(Math.random() * advices.length)];
-        
-        const questionText = document.getElementById("question-text");
-        const optionsContainer = document.getElementById("options-container");
-        const scoreDisplay = document.getElementById("score");
-        const levelDisplay = document.getElementById("level");
-        const categoryBadge = document.getElementById("category-badge");
-        const questionCount = document.getElementById("question-count");
-        const feedback = document.getElementById("feedback");
-        const nextBtn = document.getElementById("next-btn");
+<div class="grid">
 
-        scoreDisplay.innerText = score;
-        levelDisplay.innerText = level;
+<div class="lesson">
+<h3>🌐 Network</h3>
+<p>IP, DNS, DHCP, VLAN, Routing</p>
+</div>
 
-        function loadQuestion() {
-            feedback.classList.add("hidden");
-            nextBtn.classList.add("hidden");
-            
-            const q = questions[currentQuestion];
-            categoryBadge.innerText = q.category;
-            questionCount.innerText = `Senaryo ${currentQuestion + 1}/${questions.length}`;
-            questionText.innerText = q.question;
-            
-            optionsContainer.innerHTML = "";
-            q.options.forEach((option, index) => {
-                const btn = document.createElement("button");
-                btn.className = "w-full text-left p-4 bg-slate-900 border border-slate-700 hover:border-slate-500 rounded-xl transition duration-200 text-sm font-medium text-slate-200 shadow-sm";
-                btn.innerText = option;
-                btn.onclick = () => selectOption(index);
-                optionsContainer.appendChild(btn);
-            });
-        }
+<div class="lesson">
+<h3>🖥 Windows Server</h3>
+<p>AD, GPO, DNS, File Server</p>
+</div>
 
-        function selectOption(selectedIndex) {
-            const q = questions[currentQuestion];
-            const buttons = optionsContainer.getElementsByTagName("button");
-            
-            for(let btn of buttons) {
-                btn.disabled = true;
-            }
+<div class="lesson">
+<h3>🔀 Switch</h3>
+<p>Access Port, Trunk, STP</p>
+</div>
 
-            if(selectedIndex === q.correct) {
-                buttons[selectedIndex].classList.add("bg-emerald-950", "border-emerald-500", "text-emerald-200");
-                score += 25;
-                feedback.className = "p-4 rounded-xl mb-4 text-sm font-medium bg-emerald-950/80 border border-emerald-800 text-emerald-300";
-                feedback.innerText = "🎉 Doğru Hamle, Kanka! Teknik Açıklama: " + q.explanation;
-            } else {
-                buttons[selectedIndex].classList.add("bg-rose-950", "border-rose-500", "text-rose-200");
-                buttons[q.correct].classList.add("bg-emerald-950", "border-emerald-500", "text-emerald-200");
-                feedback.className = "p-4 rounded-xl mb-4 text-sm font-medium bg-rose-950/80 border border-rose-800 text-rose-300";
-                feedback.innerText = "❌ Yanlış Hamle! Doğrusu Şöyle Olmalıydı: " + q.explanation;
-            }
+<div class="lesson">
+<h3>🔥 Firewall</h3>
+<p>Fortigate, NAT, VPN, Policy</p>
+</div>
 
-            if(score >= 50) level = 2;
-            if(score >= 100) level = 3;
-            if(score >= 150) level = 4;
+<div class="lesson">
+<h3>☁ VMware</h3>
+<p>Hyper-V ve Sanallaştırma</p>
+</div>
 
-            scoreDisplay.innerText = score;
-            levelDisplay.innerText = level;
+<div class="lesson">
+<h3>🛡 Siber Güvenlik</h3>
+<p>Firewall, IDS, IPS, Log Analizi</p>
+</div>
 
-            localStorage.setItem("it_score", score);
-            localStorage.setItem("it_level", level);
+</div>
 
-            feedback.classList.remove("hidden");
-            nextBtn.classList.remove("hidden");
-        }
+</div>
 
-        function nextQuestion() {
-            currentQuestion++;
-            if(currentQuestion < questions.length) {
-                loadQuestion();
-            } else {
-                document.getElementById("quiz-container").innerHTML = `
-                    <div class="text-center py-8">
-                        <h2 class="text-2xl font-bold text-emerald-400 mb-2">Tebrikler Soner Özhan! 🏆</h2>
-                        <p class="text-slate-300 mb-4">Tüm kritik IT senaryolarını başarıyla tamamladın.</p>
-                        <p class="text-lg font-semibold text-amber-400 mb-6">Toplam Uzmanlık Puanın: ${score}</p>
-                        <button onclick="localStorage.clear(); location.reload();" class="bg-blue-600 hover:bg-blue-500 text-white font-bold px-6 py-3 rounded-xl transition duration-200 shadow-lg">
-                            Simülasyonu Sıfırla ve Başa Dön 🔄
-                        </button>
-                    </div>
-                `;
-            }
-        }
+<script>
+let xp = 350;
 
-        loadQuestion();
-    </script>
+function xpKazan(){
+    xp += 50;
+    document.getElementById("xp").innerText = xp;
+
+    if(xp >= 1000){
+        alert("Tebrikler! Yeni seviyeye ulaştın.");
+    }
+}
+</script>
+
 </body>
 </html>
